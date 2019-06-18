@@ -1,6 +1,11 @@
 const resolvers = {
   Query: {
-    hello: () => 'Hello'
+    hello: () => 'Hello',
+    me: () => {
+      return {
+        username: 'Test'
+      };
+    }
   }
 };
 
