@@ -1,7 +1,7 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
-const userSchema = require('./user');
-const messageSchema = require('./message');
+import userSchema from './user';
+import messageSchema from './message';
 
 const schema = gql`
   type Query {
@@ -16,4 +16,4 @@ const schema = gql`
   }
 `;
 
-module.exports = [schema, userSchema, messageSchema];
+export default [schema, userSchema, messageSchema];

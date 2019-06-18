@@ -1,15 +1,15 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
-module.exports = gql`
+export default gql`
   extend type Query {
-    message(id: ID!): Message
-    messages: [Message!]
+    messages: [Message!]!
+    message(id: ID!): Message!
   }
 
   extend type Mutation {
     createMessage(text: String!): Message!
     deleteMessage(id: ID!): Boolean!
-    updateMessage(id: ID!, text: String!): Message
+    # updateMessage(id: ID!, text: String!): Message
   }
 
   type Message {

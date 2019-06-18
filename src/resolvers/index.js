@@ -1,4 +1,4 @@
-const userResolvers = require('./user');
-const messageResolvers = require('./message');
+import userResolvers from './user';
+import messageResolvers from './message';
 
-module.exports = [userResolvers, messageResolvers];
+export default [userResolvers, messageResolvers];

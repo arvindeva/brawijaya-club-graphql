@@ -9,7 +9,7 @@ const message = (sequelize, DataTypes) => {
     Message.belongsTo(models.User);
   };
 
-  return message;
+  return Message;
 };
 
-module.exports = message;
+export default message;

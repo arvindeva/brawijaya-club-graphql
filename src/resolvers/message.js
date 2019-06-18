@@ -1,48 +1,42 @@
-const uuidv4 = require('uuid/v4');
-
-const messageResolvers = {
+export default {
   Query: {
-    message: (parent, { id }, { models }) => {
-      return models.messages[id];
+    messages: async (parent, args, { models }) => {
+      return await models.Message.findAll();
     },
-    messages: (parent, args, { models }) => {
-      return Object.values(models.messages);
+    message: async (parent, { id }, { models }) => {
+      return await models.Message.findOne({
+        where: {
+          id: id
+        }
+      });
     }
   },
   Mutation: {
-    createMessage: (parent, { text }, { me, models }) => {
-      const newId = uuidv4();
-      const newMessage = {
-        id: newId,
-        text: text,
+    createMessage: async (parent, { text }, { me, models }) => {
+      return await models.Message.create({
+        text,
         userId: me.id
-      };
-      models.messages[newId] = newMessage;
-      models.users[me.id].messageIds.push(newId);
-      return newMessage;
+      });
     },
-    deleteMessage: (parent, { id }, { models }) => {
-      const { [id]: message, ...rest } = models.messages;
-      if (!message) {
-        return false;
-      }
-      models.messages = rest;
-      return true;
-    },
-    updateMessage: (parent, { id, text }, { models }) => {
-      const message = models.messages[id];
-      if (!message) {
-        throw new Error('id not found');
-      }
-      message.text = text;
-      return models.messages[id];
+    deleteMessage: async (parent, { id }, { models }) => {
+      return await models.Message.destroy({ where: { id } });
     }
+    // updateMessage: (parent, { id, text }, { models }) => {
+    //   const message = models.messages[id];
+    //   if (!message) {
+    //     throw new Error('id not found');
+    //   }
+    //   message.text = text;
+    //   return models.messages[id];
+    // }
   },
   Message: {
-    user: (message, args, { models }) => {
-      return models.users[message.userId];
+    user: async (message, args, { models }) => {
+      return await models.User.findOne({
+        where: {
+          id: message.userId
+        }
+      });
     }
   }
 };
-
-module.exports = messageResolvers;
