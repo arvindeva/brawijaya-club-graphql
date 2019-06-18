@@ -1,30 +1,28 @@
-let users = {
-  1: {
-    id: '1',
+const users = [
+  {
+    id: 1,
     username: 'arvindeva',
     email: 'arvindeva@gmail.com'
   },
-  2: {
-    id: '2',
+  {
+    id: 2,
     username: 'sapayoa',
     email: 'sapayoa@gmail.com'
   }
-};
-
-const me = users[1];
+];
 
 const resolvers = {
   Query: {
-    me: () => {
-      return me;
+    me: (parent, args, context) => {
+      return context.me;
     },
-    user: (parent, args) => {
-      return users[args.id];
+    user: (parent, { id }) => {
+      return users[id - 1];
     },
     users: () => {
-      return Object.values(users);
+      return users;
     }
   }
 };
 
-module.exports = resolvers;
+module.exports = { resolvers, users };
