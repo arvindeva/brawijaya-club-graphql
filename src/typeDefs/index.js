@@ -9,6 +9,12 @@ const typeDefs = gql`
     messages: [Message!]
   }
 
+  type Mutation {
+    createMessage(text: String!): Message!
+    deleteMessage(id: ID!): Boolean!
+    updateMessage(id: ID!, text: String!): Message
+  }
+
   type User {
     id: ID!
     username: String!

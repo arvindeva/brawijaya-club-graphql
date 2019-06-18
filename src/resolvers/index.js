@@ -1,4 +1,6 @@
-const users = {
+const uuidv4 = require('uuid/v4');
+
+let users = {
   1: {
     id: '1',
     username: 'arvindeva',
@@ -13,7 +15,7 @@ const users = {
   }
 };
 
-const messages = {
+let messages = {
   1: {
     id: '1',
     text: 'Hello',
@@ -42,6 +44,37 @@ const resolvers = {
     },
     messages: () => {
       return Object.values(messages);
+    }
+  },
+  Mutation: {
+    createMessage: (parent, { text }, { me }) => {
+      const newId = uuidv4();
+      const newMessage = {
+        id: newId,
+        text: text,
+        userId: me.id
+      };
+      messages[newId] = newMessage;
+      users[me.id].messageIds.push(newId);
+      return newMessage;
+    },
+    deleteMessage: (parent, { id }) => {
+      const { [id]: message, ...rest } = messages;
+      if (!message) {
+        return false;
+      }
+      messages = rest;
+      return true;
+    },
+    updateMessage: (parent, { id, text }) => {
+      const message = messages[id];
+      if (!message) {
+        let err = new Error('Id not found');
+        console.error(err);
+        throw err;
+      }
+      message.text = text;
+      return messages[id];
     }
   },
   User: {
