@@ -4,11 +4,7 @@ export default {
       return await models.Message.findAll();
     },
     message: async (parent, { id }, { models }) => {
-      return await models.Message.findOne({
-        where: {
-          id: id
-        }
-      });
+      return await models.Message.findByPk(id);
     }
   },
   Mutation: {
@@ -32,11 +28,7 @@ export default {
   },
   Message: {
     user: async (message, args, { models }) => {
-      return await models.User.findOne({
-        where: {
-          id: message.userId
-        }
-      });
+      return await models.User.findByPk(message.userId);
     }
   }
 };

@@ -4,18 +4,10 @@ export default {
       return await models.User.findAll();
     },
     user: async (parent, { id }, { models }) => {
-      return await models.User.findOne({
-        where: {
-          id: id
-        }
-      });
+      return await models.User.findByPk(id);
     },
     me: async (parent, args, { models, me }) => {
-      return await models.User.findOne({
-        where: {
-          id: me.id
-        }
-      });
+      return await models.User.findByPk(me.id);
     }
   },
 
