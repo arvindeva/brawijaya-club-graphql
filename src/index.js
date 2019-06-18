@@ -12,7 +12,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: {
-    me: users[0]
+    me: users[1]
   },
   playground: true
 });
