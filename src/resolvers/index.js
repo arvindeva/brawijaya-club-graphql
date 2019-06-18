@@ -1,65 +1,62 @@
 const uuidv4 = require('uuid/v4');
-let { users, messages } = require('../models');
 
 const resolvers = {
   Query: {
     me: (parent, args, { me }) => {
       return me;
     },
-    user: (parent, { id }) => {
-      return users[id];
+    user: (parent, { id }, { models }) => {
+      return models.users[id];
     },
-    users: () => {
-      return Object.values(users);
+    users: (parent, args, { models }) => {
+      return Object.values(models.users);
     },
-    message: (parent, { id }) => {
-      return messages[id];
+    message: (parent, { id }, { models }) => {
+      return models.messages[id];
     },
-    messages: () => {
-      return Object.values(messages);
+    messages: (parent, args, { models }) => {
+      return Object.values(models.messages);
     }
   },
   Mutation: {
-    createMessage: (parent, { text }, { me }) => {
+    createMessage: (parent, { text }, { me, models }) => {
       const newId = uuidv4();
       const newMessage = {
         id: newId,
         text: text,
         userId: me.id
       };
-      messages[newId] = newMessage;
-      users[me.id].messageIds.push(newId);
+      models.messages[newId] = newMessage;
+      models.users[me.id].messageIds.push(newId);
       return newMessage;
     },
-    deleteMessage: (parent, { id }) => {
-      const { [id]: message, ...rest } = messages;
+    deleteMessage: (parent, { id }, { models }) => {
+      const { [id]: message, ...rest } = models.messages;
       if (!message) {
         return false;
       }
-      messages = rest;
+      models.messages = rest;
       return true;
     },
-    updateMessage: (parent, { id, text }) => {
-      const message = messages[id];
+    updateMessage: (parent, { id, text }, { models }) => {
+      const message = models.messages[id];
       if (!message) {
-        let err = new Error('Id not found');
-        console.error(err);
-        throw err;
+        throw new Error('id not found');
       }
       message.text = text;
-      return messages[id];
+      return models.messages[id];
     }
   },
   User: {
-    messages: user => {
-      return Object.values(messages).filter(
+    messages: (user, args, { models }) => {
+      return Object.values(models.messages).filter(
         message => message.userId === user.id
       );
     }
   },
   Message: {
-    user: message => {
-      return users[message.userId];
+    user: (message, args, { models }) => {
+      return models.users[message.userId];
     }
   }
 };
