@@ -14,6 +14,13 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers: resolvers,
+  formatError: error => {
+    const message = error.message.replace('Validation error: ', '');
+    return {
+      ...error,
+      message
+    };
+  },
   context: async () => ({
     models: models,
     me: await models.User.findByLogin('arvindeva')
@@ -42,6 +49,12 @@ const createUsersWithMessages = async () => {
       messages: [
         {
           text: 'Hello'
+        },
+        {
+          text: 'world'
+        },
+        {
+          text: "I'm EZ"
         }
       ]
     },
