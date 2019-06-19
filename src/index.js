@@ -9,6 +9,7 @@ import models, { sequelize } from './models';
 
 const app = express();
 
+app.disable('x-powered-by');
 app.use(cors());
 
 const server = new ApolloServer({
