@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
-import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
+import hidePoweredBy from 'hide-powered-by';
 
 import schema from './schema';
 import resolvers from './resolvers';
@@ -9,7 +10,7 @@ import models, { sequelize } from './models';
 
 const app = express();
 
-app.disable('x-powered-by');
+app.use(hidePoweredBy({ setTo: 'PHP 6.6.6' }));
 app.use(cors());
 
 const server = new ApolloServer({
