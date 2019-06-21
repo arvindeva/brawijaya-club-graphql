@@ -9,15 +9,11 @@ A GraphQL API Server for brawijaya.club
 ## How to run
 Have node installed
 
-Install Postgres
-
-Create a db instance
-
-Create a .env file
-
 Use Yarn if you want.
 
 ```
 yarn install
 yarn start
 ```
+
+Open playground at http://localhost:4000/graphql
