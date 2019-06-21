@@ -31,5 +31,7 @@ export default gql`
     weight: Float!
     user: User!
     comment: String
+    createdAt: String!
+    updatedAt: String!
   }
 `;

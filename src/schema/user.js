@@ -22,5 +22,7 @@ export default gql`
     email: String!
     username: String!
     exercises: [Exercise!]
+    createdAt: String!
+    updatedAt: String!
   }
 `;
