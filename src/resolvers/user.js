@@ -1,38 +1,42 @@
-const createToken = async user => {
-  return user;
+import jwt from 'jsonwebtoken';
+
+const createToken = async (user, secret, expiresIn) => {
+  const { id, email, username } = user;
+  return await jwt.sign({ id, email, username }, secret, { expiresIn });
 };
 
 export default {
   Query: {
-    me: async (parent, args, { models, me }) => {
+    me: async (_, __, { models, me }) => {
       if (!me) {
         return null;
       }
       return await models.User.findByPk(me.id);
     },
-    users: async (parent, args, { models }) => {
+    users: async (_, __, { models }) => {
       return await models.User.findAll();
     },
-    user: async (parent, { id }, { models }) => {
+    user: async (_, { id }, { models }) => {
       return await models.User.findByPk(id);
     }
   },
 
   Mutation: {
-    signUp: async (parent, args, { models }) => {
+    signUp: async (_, args, context) => {
       const { username, email, password } = args;
+      const { models, secret } = context;
       const user = await models.User.create({
         username,
         email,
         password
       });
 
-      return { token: createToken(user) };
+      return { token: createToken(user, secret, '30m') };
     }
   },
 
   User: {
-    messages: async (user, args, { models }) => {
+    messages: async (user, _, { models }) => {
       return await models.Message.findAll({
         where: {
           userId: user.id
