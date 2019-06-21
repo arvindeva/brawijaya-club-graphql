@@ -1,4 +1,4 @@
 import userResolvers from './user';
-import messageResolvers from './message';
+import exerciseResolvers from './exercise';
 
-export default [userResolvers, messageResolvers];
+export default [userResolvers, exerciseResolvers];

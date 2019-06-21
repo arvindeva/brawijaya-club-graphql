@@ -21,6 +21,6 @@ export default gql`
     id: ID!
     email: String!
     username: String!
-    messages: [Message!]
+    exercises: [Exercise!]
   }
 `;

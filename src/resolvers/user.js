@@ -72,8 +72,8 @@ export default {
   },
 
   User: {
-    messages: async (user, _, { models }) => {
-      return await models.Message.findAll({
+    exercises: async (user, _, { models }) => {
+      return await models.Exercise.findAll({
         where: {
           userId: user.id
         }

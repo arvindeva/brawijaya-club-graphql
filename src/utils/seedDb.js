@@ -6,20 +6,29 @@ export default async () => {
       username: 'arvindeva',
       email: 'arvindeva@gmail.com',
       password: 'arvindeva',
-      messages: [
+      exercises: [
         {
-          text: 'Hello'
+          type: 'bench',
+          reps: 5,
+          sets: 5,
+          weight: 50
         },
         {
-          text: 'world'
+          type: 'squat',
+          reps: 5,
+          sets: 5,
+          weight: 70
         },
         {
-          text: "I'm EZ"
+          type: 'deadlift',
+          reps: 5,
+          sets: 5,
+          weight: 90
         }
       ]
     },
     {
-      include: [models.Message]
+      include: [models.Exercise]
     }
   );
   await models.User.create(
@@ -27,17 +36,29 @@ export default async () => {
       username: 'sapayoa',
       email: 'sapayoa@gmail.com',
       password: 'sapayoa',
-      messages: [
+      exercises: [
         {
-          text: 'Sapa'
+          type: 'bench',
+          reps: 12,
+          sets: 4,
+          weight: 30
         },
         {
-          text: 'Yoa!'
+          type: 'squat',
+          reps: 12,
+          sets: 2,
+          weight: 70
+        },
+        {
+          type: 'deadlift',
+          reps: 6,
+          sets: 4,
+          weight: 70
         }
       ]
     },
     {
-      include: [models.Message]
+      include: [models.Exercise]
     }
   );
 };

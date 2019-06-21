@@ -4,10 +4,10 @@ import { skip } from 'graphql-resolvers';
 export const isAuthenticated = (parent, args, { me }) =>
   me ? skip : new ForbiddenError('Not authenticated as user.');
 
-export const isMessageOwner = async (parent, args, context) => {
-  const message = await context.models.Message.findByPk(args.id, { raw: true });
+export const isExerciseOwner = async (parent, args, context) => {
+  const exercise = await context.models.Exercise.findByPk(args.id, { raw: true });
 
-  if (message.userId !== context.me.id) {
+  if (exercise.userId !== context.me.id) {
     throw new ForbiddenError('Not authenticated as owner');
   }
 
