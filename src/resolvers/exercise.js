@@ -3,17 +3,17 @@ import { isAuthenticated, isExerciseOwner } from './authorization';
 
 export default {
   Query: {
-    exercises: async (parent, args, { models }) => {
+    exercises: async (_, __, { models }) => {
       return await models.Exercise.findAll();
     },
-    exercise: async (parent, { id }, { models }) => {
+    exercise: async (_, { id }, { models }) => {
       return await models.Exercise.findByPk(id);
     }
   },
   Mutation: {
     createExercise: combineResolvers(
       isAuthenticated,
-      async (parent, args, { me, models }) => {
+      async (_, args, { me, models }) => {
         try {
           return await models.Exercise.create({
             ...args,
@@ -27,14 +27,14 @@ export default {
     deleteExercise: combineResolvers(
       isAuthenticated,
       isExerciseOwner,
-      async (parent, { id }, { models }) => {
+      async (_, { id }, { models }) => {
         return await models.Exercise.destroy({ where: { id } });
       }
     ),
     updateExercise: combineResolvers(
       isAuthenticated,
       isExerciseOwner,
-      async (parent, args, { models }) => {
+      async (_, args, { models }) => {
         try {
           // the update method returns [total updated rows, [updated rows]]
           const updatedExercise = await models.Exercise.update(
@@ -51,7 +51,7 @@ export default {
     )
   },
   Exercise: {
-    user: async (exercise, args, { models }) => {
+    user: async (exercise, _, { models }) => {
       return await models.User.findByPk(exercise.userId);
     }
   }
