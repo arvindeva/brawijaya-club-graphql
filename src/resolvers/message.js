@@ -9,6 +9,10 @@ export default {
   },
   Mutation: {
     createMessage: async (parent, { text }, { me, models }) => {
+      console.log(me);
+      if (!me) {
+        throw new Error('asd');
+      }
       try {
         return await models.Message.create({
           text,
@@ -23,7 +27,7 @@ export default {
     },
     updateMessage: async (parent, { id, text }, { models }) => {
       try {
-        // the update method returns [# of updated rows, [updated rows]]!
+        // the update method returns [total updated rows, [updated rows]]
         const updatedMessage = await models.Message.update(
           {
             text: text

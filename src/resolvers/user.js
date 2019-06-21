@@ -64,6 +64,10 @@ export default {
       });
 
       return { token };
+    },
+    signOut: (parent, args, context) => {
+      context.res.clearCookie('token');
+      return 'BYE';
     }
   },
 

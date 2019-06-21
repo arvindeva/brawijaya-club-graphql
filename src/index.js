@@ -30,7 +30,7 @@ const server = new ApolloServer({
     return {
       ...req,
       models,
-      me: me.user,
+      me: me && me.user,
       secret: process.env.USER_SECRET
     };
   },
