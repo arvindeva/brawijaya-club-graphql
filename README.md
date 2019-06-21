@@ -10,7 +10,9 @@ A GraphQL API Server for brawijaya.club
 Have node installed
 
 Install Postgres
+
 Create a db instance
+
 Create a .env file
 
 Use Yarn if you want.
