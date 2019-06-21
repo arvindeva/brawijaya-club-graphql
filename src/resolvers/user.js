@@ -21,12 +21,17 @@ export default {
     signUp: async (_, args, context) => {
       const { username, email, password } = args;
       const { models, secret, res } = context;
+
+      // TODO: Input validation
+
+      // Create the user
       const user = await models.User.create({
         username,
         email,
         password
       });
 
+      // Generate new token
       const token = jwt.sign({ user }, secret);
 
       res.cookie('token', token, {

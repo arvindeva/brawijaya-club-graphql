@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import cors from 'cors';
 import hidePoweredBy from 'hide-powered-by';
 import jwt from 'jsonwebtoken';
@@ -11,14 +11,26 @@ import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import seedDb from './utils/seedDb';
 
+const getMe = async req => {
+  const { token } = req.cookies;
+  if (token) {
+    try {
+      return await jwt.verify(token, process.env.USER_SECRET);
+    } catch (error) {
+      throw new AuthenticationError('Your session has expired');
+    }
+  }
+};
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
   context: async ({ req }) => {
+    const me = await getMe(req);
     return {
       ...req,
       models,
-      me: await models.User.findByLogin('arvindeva'),
+      me: me.user,
       secret: process.env.USER_SECRET
     };
   },
