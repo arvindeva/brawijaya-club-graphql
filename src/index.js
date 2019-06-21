@@ -7,6 +7,7 @@ import hidePoweredBy from 'hide-powered-by';
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
+import seedDb from './utils/seedDb';
 
 const app = express();
 
@@ -37,52 +38,10 @@ const eraseDatabaseOnSync = true;
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    createUsersWithMessages();
+    seedDb();
   }
 
   app.listen({ port: 4000 }, () => {
     console.log(`🚀 Server ready at http://localhost:4000/graphql`);
   });
 });
-
-const createUsersWithMessages = async () => {
-  await models.User.create(
-    {
-      username: 'arvindeva',
-      email: 'arvindeva@gmail.com',
-      password: 'arvindeva',
-      messages: [
-        {
-          text: 'Hello'
-        },
-        {
-          text: 'world'
-        },
-        {
-          text: "I'm EZ"
-        }
-      ]
-    },
-    {
-      include: [models.Message]
-    }
-  );
-  await models.User.create(
-    {
-      username: 'sapayoa',
-      email: 'sapayoa@gmail.com',
-      password: 'sapayoa',
-      messages: [
-        {
-          text: 'Sapa'
-        },
-        {
-          text: 'Yoa!'
-        }
-      ]
-    },
-    {
-      include: [models.Message]
-    }
-  );
-};
