@@ -7,7 +7,13 @@ COMING SOON
 A GraphQL API Server for brawijaya.club
 
 ## How to run
-Have node installed
+Install Node.
+
+Install Postgres.
+
+Create db instance.
+
+Create .env file
 
 Use Yarn if you want.
 
