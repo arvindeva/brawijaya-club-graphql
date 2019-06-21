@@ -1,6 +1,5 @@
 import { AuthenticationError, UserInputError } from 'apollo-server';
-
-import createToken from '../utils/createToken';
+import jwt from 'jsonwebtoken';
 
 export default {
   Query: {
@@ -21,18 +20,25 @@ export default {
   Mutation: {
     signUp: async (_, args, context) => {
       const { username, email, password } = args;
-      const { models, secret } = context;
+      const { models, secret, res } = context;
       const user = await models.User.create({
         username,
         email,
         password
       });
 
-      return { token: createToken(user, secret, '30m') };
+      const token = jwt.sign({ user }, secret);
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 31
+      });
+
+      return { token };
     },
     signIn: async (_, args, context) => {
       const { login, password } = args;
-      const { models, secret } = context;
+      const { models, secret, res } = context;
 
       const user = await models.User.findByLogin(login);
 
@@ -45,8 +51,14 @@ export default {
       if (!isValid) {
         throw new AuthenticationError('Invalid Password');
       }
+      const token = jwt.sign({ user }, secret);
 
-      return { token: createToken(user, secret, '30m') };
+      res.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 31
+      });
+
+      return { token };
     }
   },
 

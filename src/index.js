@@ -3,36 +3,61 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import hidePoweredBy from 'hide-powered-by';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
 
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import seedDb from './utils/seedDb';
 
-const app = express();
-
-app.use(hidePoweredBy({ setTo: 'PHP 6.6.6' }));
-app.use(cors());
-
 const server = new ApolloServer({
   typeDefs: schema,
-  resolvers: resolvers,
-  formatError: error => {
-    const message = error.message.replace('Validation error: ', '');
+  resolvers,
+  context: async ({ req }) => {
     return {
-      ...error,
-      message
+      ...req,
+      models,
+      me: await models.User.findByLogin('arvindeva'),
+      secret: process.env.USER_SECRET
     };
   },
-  context: async () => ({
-    models: models,
-    me: await models.User.findByLogin('arvindeva'),
-    secret: process.env.SECRET
-  }),
   playground: true
 });
 
-server.applyMiddleware({ app, path: '/graphql' });
+const app = express();
+
+var corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+};
+
+app.use(hidePoweredBy({ setTo: 'PHP 4.2.0' }));
+app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use((req, res, next) => {
+  const { token } = req.cookies;
+  if (token) {
+    const { userId } = jwt.verify(token, process.env.USER_SECRET);
+    req.userId = userId;
+  }
+  next();
+});
+
+app.use(async (req, res, next) => {
+  if (!req.userId) return next();
+  const user = await models.findByPk({
+    where: { id: req.userId }
+  });
+  req.user = user;
+  next();
+});
+
+server.applyMiddleware({
+  app: app,
+  path: '/graphql',
+  cors: false
+});
 
 const eraseDatabaseOnSync = true;
 
