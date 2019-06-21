@@ -1,3 +1,3 @@
 # brawijaya-club-graphql
 
-## GraphQL API for brawijaya.club leaderboards
+## GraphQL API for brawijaya.club
