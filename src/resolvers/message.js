@@ -1,3 +1,5 @@
+import { AuthenticationError } from 'apollo-server';
+
 export default {
   Query: {
     messages: async (parent, args, { models }) => {
@@ -11,7 +13,7 @@ export default {
     createMessage: async (parent, { text }, { me, models }) => {
       console.log(me);
       if (!me) {
-        throw new Error('asd');
+        throw new AuthenticationError('You must be authenticated');
       }
       try {
         return await models.Message.create({
