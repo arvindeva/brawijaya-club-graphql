@@ -1,22 +1,46 @@
 const exercise = (sequelize, DataTypes) => {
   const Exercise = sequelize.define('exercise', {
-    type: {
-      type: DataTypes.STRING,
+    name: {
+      type: DataTypes.ENUM([
+        'bench',
+        'overhead_press',
+        'squat',
+        'deadlift',
+        'pull_ups'
+      ]),
       validate: {
         notEmpty: {
           args: true,
-          msg: 'A Exercise cannot be empty'
+          msg: 'Exercise name cannot be empty'
         }
       }
     },
     reps: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Reps cannot be empty'
+        }
+      }
     },
     sets: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Sets cannot be empty'
+        }
+      }
     },
     weight: {
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Weight cannot be empty'
+        }
+      }
     }
   });
 

@@ -7,17 +7,29 @@ export default gql`
   }
 
   extend type Mutation {
-    createExercise(text: String!): Exercise!
+    createExercise(
+      name: String!
+      sets: Int!
+      reps: Int!
+      weight: Float!
+    ): Exercise!
     deleteExercise(id: ID!): Boolean!
-    updateExercise(id: ID!, text: String!): Exercise
+    updateExercise(
+      id: ID!
+      name: String!
+      sets: Int!
+      reps: Int!
+      weight: Float!
+    ): Exercise
   }
 
   type Exercise {
     id: ID!
-    type: String!
+    name: String!
     sets: Int!
     reps: Int!
     weight: Float!
     user: User!
+    comment: String
   }
 `;

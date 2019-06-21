@@ -8,19 +8,25 @@ export default async () => {
       password: 'arvindeva',
       exercises: [
         {
-          type: 'bench',
+          name: 'bench',
           reps: 5,
           sets: 5,
           weight: 50
         },
         {
-          type: 'squat',
+          name: 'squat',
           reps: 5,
           sets: 5,
           weight: 70
         },
         {
-          type: 'deadlift',
+          name: 'deadlift',
+          reps: 5,
+          sets: 5,
+          weight: 90
+        },
+        {
+          name: 'overhead_press',
           reps: 5,
           sets: 5,
           weight: 90
@@ -38,19 +44,19 @@ export default async () => {
       password: 'sapayoa',
       exercises: [
         {
-          type: 'bench',
+          name: 'bench',
           reps: 12,
           sets: 4,
           weight: 30
         },
         {
-          type: 'squat',
+          name: 'squat',
           reps: 12,
           sets: 2,
           weight: 70
         },
         {
-          type: 'deadlift',
+          name: 'deadlift',
           reps: 6,
           sets: 4,
           weight: 70

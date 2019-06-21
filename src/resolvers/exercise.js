@@ -16,7 +16,7 @@ export default {
       async (parent, args, { me, models }) => {
         try {
           return await models.Exercise.create({
-            args,
+            ...args,
             userId: me.id
           });
         } catch (error) {
@@ -25,25 +25,30 @@ export default {
       }
     ),
     deleteExercise: combineResolvers(
+      isAuthenticated,
       isExerciseOwner,
       async (parent, { id }, { models }) => {
         return await models.Exercise.destroy({ where: { id } });
       }
     ),
-    updateExercise: async (parent, args, { models }) => {
-      try {
-        // the update method returns [total updated rows, [updated rows]]
-        const updatedExercise = await models.Exercise.update(
-          {
-            ...args
-          },
-          { returning: true, where: { id: args.id } }
-        );
-        return updatedExercise[1][0];
-      } catch (error) {
-        throw new Error(error);
+    updateExercise: combineResolvers(
+      isAuthenticated,
+      isExerciseOwner,
+      async (parent, args, { models }) => {
+        try {
+          // the update method returns [total updated rows, [updated rows]]
+          const updatedExercise = await models.Exercise.update(
+            {
+              ...args
+            },
+            { returning: true, where: { id: args.id } }
+          );
+          return updatedExercise[1][0];
+        } catch (error) {
+          throw new Error(error);
+        }
       }
-    }
+    )
   },
   Exercise: {
     user: async (exercise, args, { models }) => {
