@@ -20,15 +20,21 @@ export default {
     },
     deleteMessage: async (parent, { id }, { models }) => {
       return await models.Message.destroy({ where: { id } });
+    },
+    updateMessage: async (parent, { id, text }, { models }) => {
+      try {
+        // the update method returns [# of updated rows, [updated rows]]!
+        const updatedMessage = await models.Message.update(
+          {
+            text: text
+          },
+          { returning: true, where: { id: id } }
+        );
+        return updatedMessage[1][0];
+      } catch (error) {
+        throw new Error(error);
+      }
     }
-    // updateMessage: (parent, { id, text }, { models }) => {
-    //   const message = models.messages[id];
-    //   if (!message) {
-    //     throw new Error('id not found');
-    //   }
-    //   message.text = text;
-    //   return models.messages[id];
-    // }
   },
   Message: {
     user: async (message, args, { models }) => {
