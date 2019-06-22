@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     exercises: [Exercise!]!
     exercise(id: ID!): Exercise!
+    exercisesByName(name: String!): [Exercise!]!
   }
 
   extend type Mutation {

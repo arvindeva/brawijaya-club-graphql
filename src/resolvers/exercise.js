@@ -8,6 +8,14 @@ export default {
     },
     exercise: async (_, { id }, { models }) => {
       return await models.Exercise.findByPk(id);
+    },
+    exercisesByName: async (_, args, { models }) => {
+      return await models.Exercise.findAll({
+        where: {
+          name: args.name
+        },
+        order: [['weight', 'DESC']]
+      });
     }
   },
   Mutation: {
