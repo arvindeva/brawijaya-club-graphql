@@ -14,6 +14,18 @@ export default async () => {
           weight: 50
         },
         {
+          name: 'bench',
+          reps: 5,
+          sets: 5,
+          weight: 60
+        },
+        {
+          name: 'bench',
+          reps: 5,
+          sets: 5,
+          weight: 70
+        },
+        {
           name: 'squat',
           reps: 5,
           sets: 5,
