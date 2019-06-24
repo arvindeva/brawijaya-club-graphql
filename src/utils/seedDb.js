@@ -1,6 +1,6 @@
 import models from '../models';
 
-export default async date => {
+export default async () => {
   await models.User.create(
     {
       username: 'arvindeva',
@@ -11,49 +11,37 @@ export default async date => {
           name: 'bench',
           reps: 5,
           sets: 5,
-          weight: 50,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 50
         },
         {
           name: 'bench',
           reps: 5,
           sets: 5,
-          weight: 60,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 60
         },
         {
           name: 'bench',
           reps: 5,
           sets: 5,
-          weight: 70,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 70
         },
         {
           name: 'squat',
           reps: 5,
           sets: 5,
-          weight: 70,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 70
         },
         {
           name: 'deadlift',
           reps: 5,
           sets: 5,
-          weight: 90,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 90
         },
         {
           name: 'overhead_press',
           reps: 5,
           sets: 5,
-          weight: 90,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 90
         }
       ]
     },
@@ -71,25 +59,19 @@ export default async date => {
           name: 'bench',
           reps: 12,
           sets: 4,
-          weight: 30,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 30
         },
         {
           name: 'squat',
           reps: 12,
           sets: 2,
-          weight: 70,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 70
         },
         {
           name: 'deadlift',
           reps: 6,
           sets: 4,
-          weight: 70,
-          createdAt: date.setSeconds(date.getSeconds() + 1),
-          updatedAt: date.setSeconds(date.getSeconds() + 1)
+          weight: 70
         }
       ]
     },
