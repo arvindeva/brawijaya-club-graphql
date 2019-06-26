@@ -1,5 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated, isExerciseOwner } from './authorization';
+import { sequelize } from '../models/';
 
 export default {
   Query: {
@@ -16,6 +17,30 @@ export default {
         },
         order: [['weight', 'DESC']]
       });
+    },
+    leaderboards: async (_, args, { models }) => {
+      console.log(models);
+      return await sequelize.query(
+        `
+        SELECT
+          *
+        FROM
+          exercises
+        WHERE
+          NOT EXISTS (
+            SELECT * 
+            FROM exercises AS lookup 
+            WHERE "userId" = exercises."userId"
+            AND name = exercises.name
+            AND weight > exercises.weight
+        ) AND name ='${args.name}'
+        ORDER BY
+          weight DESC;
+        `,
+        {
+          type: sequelize.QueryTypes.SELECT
+        }
+      );
     }
   },
   Mutation: {

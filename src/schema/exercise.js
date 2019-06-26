@@ -5,6 +5,7 @@ export default gql`
     exercises: [Exercise!]!
     exercise(id: ID!): Exercise!
     exercisesByName(name: String!): [Exercise!]!
+    leaderboards(name: String!): [Exercise!]!
   }
 
   extend type Mutation {
