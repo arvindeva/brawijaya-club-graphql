@@ -75,7 +75,7 @@ const eraseDatabaseOnSync = true;
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    seedDb(new Date);
+    seedDb(new Date());
   }
 
   app.listen({ port: 4000 }, () => {
