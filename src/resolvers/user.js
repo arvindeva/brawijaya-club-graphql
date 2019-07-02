@@ -24,22 +24,26 @@ export default {
 
       // TODO: Input validation
 
-      // Create the user
-      const user = await models.User.create({
-        username,
-        email,
-        password
-      });
+      try {
+        // Create the user
+        const user = await models.User.create({
+          username,
+          email,
+          password
+        });
 
-      // Generate new token
-      const token = jwt.sign({ user }, secret);
+        // Generate new token
+        const token = jwt.sign({ user }, secret);
 
-      res.cookie('token', token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 31
-      });
+        res.cookie('token', token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 24 * 31
+        });
 
-      return { token };
+        return { token };
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     signIn: async (_, args, context) => {
       const { login, password } = args;
