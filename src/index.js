@@ -10,6 +10,7 @@ import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import seedDb from './utils/seedDb';
+import { formatError } from './utils/formatError';
 
 const getMe = async req => {
   const { token } = req.cookies;
@@ -34,6 +35,7 @@ const server = new ApolloServer({
       secret: process.env.USER_SECRET
     };
   },
+  formatError,
   playground: true
 });
 
